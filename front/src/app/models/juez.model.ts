@@ -6,25 +6,27 @@ export class Juez {
 
     constructor(
         public nombre: string,
+        public primerApellido: string,
+        public segundoApellido: string,
         public email: string,
+        public role?: 'ADMIN' | 'JUEZ' | 'SEC',
+        public foto?: string,
+        public id?: string,
         public password?: string,
-        public img?: string,
-        public google?: boolean,
-        public role?: 'ADMIN' | 'JUEZ',
-        public uid?: string,
-    ) {}
+        public resetPassword?: boolean,
+    ) { }
 
-    get imagenUrl() {
+    // get imagenUrl() {
 
-        if ( !this.img ) {
-            return `${ base_url }/upload/jueces/no-image`;
-        } else if ( this.img.includes('https') ) {
-            return this.img;
-        } else if ( this.img ) {
-            return `${ base_url }/upload/jueces/${ this.img }`;
-        } else {
-            return `${ base_url }/upload/jueces/no-image`;
-        }
-    }
+    //     if (!this.img) {
+    //         return `${base_url}/upload/jueces/no-image`;
+    //     } else if (this.img.includes('https')) {
+    //         return this.img;
+    //     } else if (this.img) {
+    //         return `${base_url}/upload/jueces/${this.img}`;
+    //     } else {
+    //         return `${base_url}/upload/jueces/no-image`;
+    //     }
+    // }
 }
 

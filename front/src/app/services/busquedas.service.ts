@@ -32,7 +32,7 @@ export class BusquedasService {
   private transformarJueces( resultados: any[] ): Juez[] {
 
     return resultados.map(
-      user => new Juez(user.nombre, user.email, '', user.img, user.google, user.role, user.uid )  
+      user => new Juez(user.nombre, user.email, '', user.img, user.google, user.role, user.id )  
     );
   }
 

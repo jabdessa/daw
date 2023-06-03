@@ -79,7 +79,7 @@ export class JuecesComponent implements OnInit, OnDestroy {
 
   eliminarJuez( juez: Juez ) {
 
-    if ( juez.uid === this.juezService.uid ) {
+    if ( juez.id === this.juezService.id ) {
       return Swal.fire('Error', 'No puede borrarse a si mismo', 'error');
     }
 
@@ -120,7 +120,7 @@ export class JuecesComponent implements OnInit, OnDestroy {
 
   abrirModal( juez: Juez ) {
   
-    this.modalImagenService.abrirModal('jueces', juez.uid, juez.img );
+    this.modalImagenService.abrirModal('jueces', juez.id, juez.img );
   }
 
 }
