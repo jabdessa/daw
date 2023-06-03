@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { UsuarioService } from '../../services/usuario.service';
-import { Usuario } from '../../models/usuario.model';
+import { JuezService } from '../../services/juez.service';
+import { Juez } from '../../models/juez.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,15 +11,15 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
-  public usuario: Usuario;
+  public juez: Juez;
 
-  constructor( private usuarioService: UsuarioService,
+  constructor( private juezService: JuezService,
                private router: Router ) {
-    this.usuario = usuarioService.usuario;
+    this.juez = juezService.juez;
   }
 
   logout() {
-    this.usuarioService.logout();
+    this.juezService.logout();
   }
 
   buscar( termino: string ) {

@@ -4,7 +4,7 @@ import { BusquedasService } from '../../services/busquedas.service';
 
 import { Hospital } from 'src/app/models/hospital.model';
 import { Medico } from '../../models/medico.model';
-import { Usuario } from '../../models/usuario.model';
+import { Juez } from '../../models/juez.model';
 
 @Component({
   selector: 'app-busqueda',
@@ -14,7 +14,7 @@ import { Usuario } from '../../models/usuario.model';
 })
 export class BusquedaComponent implements OnInit {
 
-  public usuarios: Usuario[] = [];
+  public jueces: Juez[] = [];
   public medicos: Medico[] = [];
   public hospitales: Hospital[] = [];
 
@@ -34,7 +34,7 @@ export class BusquedaComponent implements OnInit {
     this.busquedasService.busquedaGlobal( termino )
         .subscribe( (resp: any) => {
           console.log(resp)
-          this.usuarios   = resp.usuarios;
+          this.jueces   = resp.jueces;
           this.medicos    = resp.medicos;
           this.hospitales = resp.hospitales;
         });

@@ -9,8 +9,8 @@
             <ul id="sidebarnav">
                 <li class="user-profile">
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                        <img [src]="usuario.imagenUrl" alt="user" />
-                        <span class="hide-menu">{{ usuario.nombre }} </span>
+                        <img [src]="juez.imagenUrl" alt="user" />
+                        <span class="hide-menu">{{ juez.nombre }} </span>
                     </a>
                     <ul aria-expanded="false" class="collapse">
                         <li><a routerLinkActive="active" routerLink="./perfil">My Profile </a></li>
@@ -23,7 +23,7 @@
                 <li class="nav-devider"></li>
                 <li class="nav-small-cap">PERSONAL</li>
 
-                <li *ngFor="let item of sidebarService.menu"> 
+                <li *ngFor="let item of sidebarService.menu">
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                         <i [class]="item.icono"></i>
                         <span class="hide-menu"> 
@@ -36,13 +36,11 @@
 
                     <ul aria-expanded="false" class="collapse">
                         <li *ngFor="let subMenuItem of item.submenu">
-                            <a [routerLink]="subMenuItem.url"
-                               routerLinkActive="active"
-                               [routerLinkActiveOptions]="{ exact: true }"> {{ subMenuItem.titulo }} </a>
+                            <a [routerLink]="subMenuItem.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"> {{ subMenuItem.titulo }} </a>
                         </li>
                     </ul>
                 </li>
-                
+
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

@@ -5,7 +5,7 @@
                 
                 <input type="text"
                         class="form-control"
-                        placeholder="Buscar usuario..."/>
+                        placeholder="Buscar juez..."/>
 
             </div>
         </div>
@@ -29,8 +29,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Usuarios</h4>
-                <h6 class="card-subtitle">Usuarios registrados en mi aplicación</h6>
+                <h4 class="card-title">Jueces</h4>
+                <h6 class="card-subtitle">Jueces registrados en mi aplicación</h6>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>

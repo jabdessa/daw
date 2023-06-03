@@ -11,7 +11,7 @@ export class Hospital {
         public nombre: string,
         public _id?: string,
         public img?: string,
-        public usuario?: _HospitalUser,
+        public juez?: _HospitalUser,
     ) {}
 
 }

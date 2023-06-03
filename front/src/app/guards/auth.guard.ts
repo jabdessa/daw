@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanLoad, Route } from '@angular/router';
-import { UsuarioService } from '../services/usuario.service';
+import { JuezService } from '../services/juez.service';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -8,11 +8,11 @@ import { tap } from 'rxjs/operators';
 })
 export class AuthGuard implements CanActivate, CanLoad {
 
-  constructor( private usuarioService: UsuarioService,
+  constructor( private juezService: JuezService,
                private router: Router) {}
 
   canLoad(route: Route, segments: import("@angular/router").UrlSegment[]): boolean | import("@angular/router").UrlTree | import("rxjs").Observable<boolean | import("@angular/router").UrlTree> | Promise<boolean | import("@angular/router").UrlTree> {
-    return this.usuarioService.validarToken()
+    return this.juezService.validarToken()
         .pipe(
           tap( estaAutenticado =>  {
             if ( !estaAutenticado ) {
@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
 
-      return this.usuarioService.validarToken()
+      return this.juezService.validarToken()
         .pipe(
           tap( estaAutenticado =>  {
             if ( !estaAutenticado ) {

@@ -8,16 +8,16 @@ const base_url = environment.base_url;
 })
 export class ImagenPipe implements PipeTransform {
 
-  transform( img: string, tipo: 'usuarios'|'medicos'|'hospitales'): string {
+  transform( img: string, tipo: 'jueces'|'medicos'|'hospitales'): string {
     
     if ( !img ) {
-      return `${ base_url }/upload/usuarios/no-image`;
+      return `${ base_url }/upload/jueces/no-image`;
   } else if ( img.includes('https') ) {
       return img;
   } else if ( img ) {
       return `${ base_url }/upload/${ tipo }/${ img }`;
   } else {
-      return `${ base_url }/upload/usuarios/no-image`;
+      return `${ base_url }/upload/jueces/no-image`;
   }
 
 

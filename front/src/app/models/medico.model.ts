@@ -13,7 +13,7 @@ export class Medico {
         public nombre: string,
         public _id?: string,
         public img?: string,
-        public usuario?: _MedicoUser,
+        public juez?: _MedicoUser,
         public hospital?: Hospital
     ) {}
 

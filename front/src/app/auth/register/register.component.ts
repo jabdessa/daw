@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2'
 
-import { UsuarioService } from '../../services/usuario.service';
+import { JuezService } from '../../services/juez.service';
 
 @Component({
   selector: 'app-register',
@@ -15,8 +15,8 @@ export class RegisterComponent {
   public formSubmitted = false;
 
   public registerForm = this.fb.group({
-    nombre: ['Fernando', Validators.required ],
-    email: ['test100@gmail.com', [ Validators.required, Validators.email ] ],
+    nombre: ['Juez', Validators.required ],
+    email: ['juez@juez.com', [ Validators.required, Validators.email ] ],
     password: ['123456', Validators.required ],
     password2: ['123456', Validators.required ],
     terminos: [ true, Validators.required ],
@@ -25,10 +25,10 @@ export class RegisterComponent {
   });
 
   constructor( private fb: FormBuilder,
-               private usuarioService: UsuarioService,
+               private juezService: JuezService,
                private router: Router ) { }
 
-  crearUsuario() {
+  crearJuez() {
     this.formSubmitted = true;
     console.log( this.registerForm.value );
 
@@ -37,7 +37,7 @@ export class RegisterComponent {
     }
 
     // Realizar el posteo
-    this.usuarioService.crearUsuario( this.registerForm.value )
+    this.juezService.crearJuez( this.registerForm.value )
         .subscribe( resp => {
           
           // Navegar al Dashboard

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 
-import { Usuario } from '../models/usuario.model';
+import { Juez } from '../models/juez.model';
 import { Hospital } from '../models/hospital.model';
 import { Medico } from '../models/medico.model';
 
@@ -29,10 +29,10 @@ export class BusquedasService {
     }
   }
 
-  private transformarUsuarios( resultados: any[] ): Usuario[] {
+  private transformarJueces( resultados: any[] ): Juez[] {
 
     return resultados.map(
-      user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid )  
+      user => new Juez(user.nombre, user.email, '', user.img, user.google, user.role, user.uid )  
     );
   }
 
@@ -53,7 +53,7 @@ export class BusquedasService {
 
 
   buscar( 
-      tipo: 'usuarios'|'medicos'|'hospitales',
+      tipo: 'jueces'|'medicos'|'hospitales',
       termino: string
     ) {
 
@@ -63,8 +63,8 @@ export class BusquedasService {
               map( (resp: any ) => { 
 
                 switch ( tipo ) {
-                  case 'usuarios':
-                    return this.transformarUsuarios( resp.resultados )
+                  case 'jueces':
+                    return this.transformarJueces( resp.resultados )
 
                   case 'hospitales':
                     return this.transformarHospitales( resp.resultados )
