@@ -22,13 +22,13 @@ export class HeaderComponent {
     this.juezService.logout();
   }
 
-  buscar( termino: string ) {
+  // buscar( termino: string ) {
 
-    if ( termino.length === 0  ) {
-      return;
-    }
+  //   if ( termino.length === 0  ) {
+  //     return;
+  //   }
 
-    this.router.navigateByUrl(`/dashboard/buscar/${ termino }`);
-  }
+  //   this.router.navigateByUrl(`/competiciones/buscar/${ termino }`);
+  // }
 
 }

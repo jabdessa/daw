@@ -18,7 +18,7 @@ export class AdminGuard implements CanActivate {
       if (this.juezService.role === 'ADMIN') {
         return true;
       } else {
-        this.router.navigateByUrl('/dashboard');
+        this.router.navigateByUrl('/competiciones');
         return false;
       }
 

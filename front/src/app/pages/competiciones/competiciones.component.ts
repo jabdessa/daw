@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
+  selector: 'app-competiciones',
+  templateUrl: './competiciones.component.html',
   styles: [
   ]
 })
-export class DashboardComponent implements OnInit {
+export class CompeticionesComponent implements OnInit {
 
   cities: City[];
   value: Date;

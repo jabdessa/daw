@@ -35,7 +35,7 @@ export class LoginComponent {
           localStorage.removeItem('email');
         }
 
-        // Navegar al Dashboard
+        // Navegar al Competiciones
         this.router.navigateByUrl('/');
 
       }, (err) => {

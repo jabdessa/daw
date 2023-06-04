@@ -40,7 +40,7 @@ export class RegisterComponent {
     this.juezService.crearJuez( this.registerForm.value )
         .subscribe( resp => {
           
-          // Navegar al Dashboard
+          // Navegar al Competiciones
           this.router.navigateByUrl('/');
 
         }, (err) => {

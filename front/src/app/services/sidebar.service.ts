@@ -13,7 +13,7 @@ export class SidebarService {
 
   // menu: any[] = [
   //   {
-  //     titulo: 'Dashboard',
+  //     titulo: 'Competiciones',
   //     icono: 'mdi mdi-gauge',
   //     submenu: [
   //       { titulo: 'Main', url: '/' },

@@ -63,7 +63,7 @@ export class MedicoComponent implements OnInit {
       .subscribe( medico => {
 
         if ( !medico ) {
-          return this.router.navigateByUrl(`/dashboard/medicos`);
+          return this.router.navigateByUrl(`/competiciones/medicos`);
         }
 
         const { nombre, hospital:{ _id } } = medico; 
@@ -103,7 +103,7 @@ export class MedicoComponent implements OnInit {
       this.medicoService.crearMedico( this.medicoForm.value )
           .subscribe( (resp: any) => {
             Swal.fire('Creado', `${ nombre } creado correctamente`, 'success');
-            this.router.navigateByUrl(`/dashboard/medico/${ resp.medico._id }`)
+            this.router.navigateByUrl(`/competiciones/medico/${ resp.medico._id }`)
         })
     }
 
