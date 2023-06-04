@@ -120,7 +120,7 @@ export class JuecesComponent implements OnInit, OnDestroy {
 
   abrirModal( juez: Juez ) {
   
-    this.modalImagenService.abrirModal('jueces', juez.id, juez.img );
+    this.modalImagenService.abrirModal('jueces', juez.id, juez.foto );
   }
 
 }

@@ -44,7 +44,7 @@
                         <tbody>
                             <tr *ngFor="let juez of jueces">
                                 <td class="text-center">
-                                    <img [src]="juez.imagenUrl" alt="Avatar de juez" class="avatar cursor" (click)="abrirModal(juez)">
+                                    <img [src]="juez.fotoUrl" alt="Avatar de juez" class="avatar cursor" (click)="abrirModal(juez)">
                                 </td>
                                 <td>{{ juez.email }}</td>
                                 <td>{{ juez.nombre }}</td>

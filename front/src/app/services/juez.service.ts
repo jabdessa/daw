@@ -102,20 +102,20 @@ export class JuezService {
 
   cargarJueces(desde: number = 0) {
     // FIXME 
-    // const url = `${base_url}/jueces?desde=${desde}`;
-    // return this.http.get<CargarJuez>(url, this.headers)
-    //   .pipe(
-    //     map(resp => {
-    //       const jueces = resp.jueces.map(
-    //         // FIXME 
-    //         // user => new Juez(user.nombre, user.email, '', user.img, user.google, user.role, user.id)
-    //       );
-    //       return {
-    //         total: resp.total,
-    //         jueces
-    //       };
-    //     })
-    //   )
+    const url = `${base_url}/jueces?desde=${desde}`;
+    return this.http.get<CargarJuez>(url, this.headers)
+      .pipe(
+        map(resp => {
+          const jueces = resp.jueces.map(
+            // FIXME 
+            juez => new Juez(juez.nombre, juez.primerApellido, juez.segundoApellido, juez.email, juez.role, juez.foto, juez.id)
+          );
+          return {
+            total: resp.total,
+            jueces
+          };
+        })
+      )
   }
 
   eliminarJuez(juez: Juez) {

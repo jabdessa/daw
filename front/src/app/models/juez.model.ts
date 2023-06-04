@@ -16,17 +16,17 @@ export class Juez {
         public resetPassword?: boolean,
     ) { }
 
-    // get imagenUrl() {
+    get fotoUrl() {
 
-    //     if (!this.img) {
-    //         return `${base_url}/upload/jueces/no-image`;
-    //     } else if (this.img.includes('https')) {
-    //         return this.img;
-    //     } else if (this.img) {
-    //         return `${base_url}/upload/jueces/${this.img}`;
-    //     } else {
-    //         return `${base_url}/upload/jueces/no-image`;
-    //     }
-    // }
+        if (!this.foto) {
+            return `${base_url}/upload/jueces/no-image`;
+        } else if (this.foto.includes('https')) {
+            return this.foto;
+        } else if (this.foto) {
+            return `${base_url}/upload/jueces/${this.foto}`;
+        } else {
+            return `${base_url}/upload/jueces/no-image`;
+        }
+    }
 }
 
