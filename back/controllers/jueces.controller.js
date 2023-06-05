@@ -5,7 +5,7 @@ const Juez = require('../models/juez.model');
 const { generarJWT } = require('../helpers/jwt');
 
 const getJueces = async(req, res) => {
-    const jueces = await Juez.find();
+    const jueces = await Juez.find({ 'role': { '$ne': 'ADMIN' } });
     res.json({
         ok: true,
         jueces
