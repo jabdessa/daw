@@ -33,12 +33,12 @@ const crearJuez = async(req, res = response) => {
         await juez.save();
 
         // Generar el TOKEN - JWT
-        const token = await generarJWT(juez.id);
+        // const token = await generarJWT(juez.id);
 
         res.json({
             ok: true,
-            juez,
-            token
+            juez
+            // ,token
         });
 
     } catch (error) {

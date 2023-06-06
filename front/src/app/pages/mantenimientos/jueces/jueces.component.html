@@ -68,7 +68,7 @@
                         <b>Nombre:*</b>
                     </div>
                     <div class="col-12">
-                        <input type="text" class="w100" pInputText [required]="true" formControlName="nombre" />
+                        <input type="text" class="w100" pInputText formControlName="nombre" />
                     </div>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                         <b>Primer apellido:*</b>
                     </div>
                     <div class="col-12">
-                        <input type="text" class="w100" pInputText [required]="true" formControlName="primerApellido" />
+                        <input type="text" class="w100" pInputText formControlName="primerApellido" />
                     </div>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                         <b>Segundo apellido:</b>
                     </div>
                     <div class="col-12">
-                        <input type="text" class="w100" pInputText [required]="true" formControlName="segundoApellido" />
+                        <input type="text" class="w100" pInputText formControlName="segundoApellido" />
                     </div>
                 </div>
             </div>
@@ -106,25 +106,35 @@
                     </div>
                 </div>
             </div>
+            <div class="col-4">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Email:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="email" class="w100" pInputText formControlName="email" />
+                    </div>
+                </div>
+            </div>
 
-            <div class="col-5">
+            <div class="col-3">
                 <div class="grid">
                     <div class="col-12">
                         <b>Contraseña:*</b>
                     </div>
                     <div class="col-12">
-                        <input type="password" class="w100" pInputText [required]="true" formControlName="password" />
+                        <input type="password" class="w100" pInputText formControlName="password" />
                     </div>
                 </div>
             </div>
 
-            <div class="col-5">
+            <div class="col-3">
                 <div class="grid">
                     <div class="col-12">
                         <b>Confirmar Contraseña:*</b>
                     </div>
                     <div class="col-12">
-                        <input type="password" class="w100" pInputText [required]="true" formControlName="passwordMatch" />
+                        <input type="password" class="w100" pInputText formControlName="passwordMatch" />
                     </div>
                 </div>
             </div>
@@ -135,20 +145,16 @@
                         <b>Foto:</b>
                     </div>
                     <div class="col-12">
-                        <input type="text" class="w100" pInputText [required]="true" formControlName="foto" />
+                        <input type="text" class="w100" pInputText formControlName="foto" />
                     </div>
                 </div>
             </div>
 
             <div class="col-12 text-right">
-                <button type="submit" pButton pRipple icon="fas fa-save" [disabled]="!formJueces.valid" label="Guardar"></button> &nbsp;
-                <button type="button" pButton pRipple icon="fas fa-arrow-left" label="Volver" (click)="displayModalCrear=false">
+                <button type="submit" pButton pRipple icon="fas fa-save" [disabled]="!formJueces.valid" label="Guardar" class="p-button-success"></button> &nbsp;
+                <button type="button" pButton pRipple icon="fas fa-arrow-left" label="Volver" class="p-button-secondary" (click)="displayModalCrear=false">
         </button>
             </div>
         </div>
     </form>
-    <pre>
-
-        {{formJueces.value |json}}
-    </pre>
 </p-dialog>

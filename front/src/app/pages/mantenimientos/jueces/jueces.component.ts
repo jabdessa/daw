@@ -47,6 +47,7 @@ export class JuecesComponent implements OnInit, OnDestroy {
     this.formJueces = this.fb.group({
       nombre: new FormControl('', Validators.required),
       primerApellido: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
       segundoApellido: new FormControl(''),
       password: new FormControl('', Validators.required),
       passwordMatch: new FormControl('', Validators.required),
@@ -118,6 +119,28 @@ export class JuecesComponent implements OnInit, OnDestroy {
   }
 
   crearJuez() {
+
+    if (this.formJueces.invalid) {
+      return;
+    }
+
+    // Realizar el posteo
+    this.juezService.crearJuez(this.formJueces.value)
+      .subscribe(resp => {
+        this.displayModalCrear = false;
+        if (resp.ok) {
+          this.cargarJueces();
+        } else {
+          console.error(resp);
+          Swal.fire('Error', resp.msg, 'error');
+        }
+        // Navegar al Competiciones
+      }, (err) => {
+        this.displayModalCrear = false;
+        // Si sucede un error
+        Swal.fire('Error', err.error.msg, 'error');
+
+      });
     console.log(this.formJueces.value);
 
   }
@@ -127,10 +150,12 @@ export class JuecesComponent implements OnInit, OnDestroy {
     this.modalImagenService.abrirModal('jueces', juez.id, juez.foto);
   }
 
+
   abrirModalCrearJuez() {
     this.formJueces.reset();
     this.displayModalCrear = true;
   }
+
   passwordsIguales(pass1Name: string, pass2Name: string) {
 
     return (formGroup: FormGroup) => {

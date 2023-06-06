@@ -13,6 +13,8 @@ import { LoginForm } from '../interfaces/login-form.interface';
 import { RegisterForm } from '../interfaces/register-form.interface';
 
 import { Juez } from '../models/juez.model';
+import { JuezRegister } from '../interfaces/juez.interface';
+import { responseJueces } from '../interfaces/response-jueces.interface';
 
 const base_url = environment.base_url;
 
@@ -74,13 +76,8 @@ export class JuezService {
     );
   }
 
-  crearJuez(formData: RegisterForm) {
-    return this.http.post(`${base_url}/jueces`, formData)
-      .pipe(
-        tap((resp: any) => {
-          this.guardarLocalStorage(resp.token, resp.menu);
-        })
-      )
+  crearJuez(formData: JuezRegister): Observable<responseJueces> {
+    return this.http.post<responseJueces>(`${base_url}/jueces`, formData, this.headers);
   }
 
   actualizarPerfil(data: { email: string, nombre: string, role: string }) {
