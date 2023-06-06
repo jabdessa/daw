@@ -1,32 +1,33 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import Swal from 'sweetalert2';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { delay } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 import { Juez } from '../../../models/juez.model';
 
-import { BusquedasService } from '../../../services/busquedas.service';
-import { ModalImagenService } from '../../../services/modal-imagen.service';
-import { JuezService } from '../../../services/juez.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Combo } from 'src/app/interfaces/combo.interface';
+import { JuezService } from '../../../services/juez.service';
+import { ModalImagenService } from '../../../services/modal-imagen.service';
 
 @Component({
   selector: 'app-jueces',
   templateUrl: './jueces.component.html',
-  styles: [
-  ]
+  styleUrls: ['./jueces.component.scss']
 })
 export class JuecesComponent implements OnInit, OnDestroy {
+
+  public displayModalCrear: boolean = false;
 
   comboOptions: Combo[] =
     [
       {
-        id: 'SEC',
-        value: 'Secretario'
-      },
-      {
         id: 'JUEZ',
         value: 'Juez'
+      },
+      {
+        id: 'SEC',
+        value: 'Secretario'
       }
     ];
 
@@ -37,10 +38,25 @@ export class JuecesComponent implements OnInit, OnDestroy {
   public imgSubs: Subscription;
   public desde: number = 0;
   public cargando: boolean = true;
+  public formJueces: FormGroup;
 
   constructor(private juezService: JuezService,
-    private busquedasService: BusquedasService,
-    private modalImagenService: ModalImagenService) { }
+    private fb: FormBuilder,
+    private modalImagenService: ModalImagenService) {
+
+    this.formJueces = this.fb.group({
+      nombre: new FormControl('', Validators.required),
+      primerApellido: new FormControl('', Validators.required),
+      segundoApellido: new FormControl(''),
+      password: new FormControl('', Validators.required),
+      passwordMatch: new FormControl('', Validators.required),
+      role: new FormControl('', Validators.required),
+      foto: new FormControl('')
+    }, {
+      validators: this.passwordsIguales('password', 'passwordMatch')
+    });
+  }
+
   ngOnDestroy(): void {
     this.imgSubs.unsubscribe();
   }
@@ -64,34 +80,7 @@ export class JuecesComponent implements OnInit, OnDestroy {
       })
   }
 
-  cambiarPagina(valor: number) {
-    this.desde += valor;
-
-    if (this.desde < 0) {
-      this.desde = 0;
-    } else if (this.desde >= this.totalJueces) {
-      this.desde -= valor;
-    }
-
-    this.cargarJueces();
-  }
-
-  buscar(termino: string) {
-
-    if (termino.length === 0) {
-      return this.jueces = this.juezsTemp;
-    }
-
-    this.busquedasService.buscar('jueces', termino)
-      .subscribe((resp: Juez[]) => {
-
-        this.jueces = resp;
-
-      });
-  }
-
   eliminarJuez(juez: Juez) {
-
     if (juez.id === this.juezService.id) {
       return Swal.fire('Error', 'No puede borrarse a si mismo', 'error');
     }
@@ -107,7 +96,6 @@ export class JuecesComponent implements OnInit, OnDestroy {
 
         this.juezService.eliminarJuez(juez)
           .subscribe(resp => {
-
             this.cargarJueces();
             Swal.fire(
               'Juez borrado',
@@ -123,17 +111,40 @@ export class JuecesComponent implements OnInit, OnDestroy {
   }
 
   cambiarRole(juez: Juez) {
-
     this.juezService.guardarJuez(juez)
       .subscribe(resp => {
         console.log(resp);
       })
   }
 
+  crearJuez() {
+    console.log(this.formJueces.value);
+
+  }
+
 
   abrirModal(juez: Juez) {
-
     this.modalImagenService.abrirModal('jueces', juez.id, juez.foto);
   }
 
+  abrirModalCrearJuez() {
+    this.formJueces.reset();
+    this.displayModalCrear = true;
+  }
+  passwordsIguales(pass1Name: string, pass2Name: string) {
+
+    return (formGroup: FormGroup) => {
+
+      const pass1Control = formGroup.get(pass1Name);
+      const pass2Control = formGroup.get(pass2Name);
+
+      if (pass1Control.value === pass2Control.value) {
+        pass2Control.setErrors(null)
+      } else {
+        pass2Control.setErrors({ noEsIgual: true })
+      }
+
+
+    }
+  }
 }

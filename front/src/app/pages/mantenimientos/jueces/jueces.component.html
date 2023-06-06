@@ -12,7 +12,14 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Listado de Jueces registrados</h4>
+                <div class="grid">
+                    <div class="col-10">
+                        <h4 class="card-title">Listado de Jueces registrados</h4>
+                    </div>
+                    <div class="col-2 text-right">
+                        <p-button label="Añadir juez" (click)="abrirModalCrearJuez()"></p-button>
+                    </div>
+                </div>
                 <p-table [value]="jueces" styleClass="p-datatable-striped" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]">
                     <ng-template pTemplate="header">
                         <tr>
@@ -49,3 +56,99 @@
         </div>
     </div>
 </div>
+
+<!-- MODAL CREAR JUEZ-->
+<p-dialog header="Añadir Juez" [(visible)]="displayModalCrear" [modal]="true" [style]="{width: '1000px', minWidth: '600px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <form [formGroup]="formJueces" (ngSubmit)="crearJuez()">
+        <div class="grid">
+
+            <div class="col-2">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Nombre:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText [required]="true" formControlName="nombre" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Primer apellido:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText [required]="true" formControlName="primerApellido" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Segundo apellido:</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText [required]="true" formControlName="segundoApellido" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Role:*</b>
+                    </div>
+                    <div class="col-12">
+                        <p-dropdown [options]="comboOptions" formControlName="role" optionLabel="value" optionValue="id">
+                        </p-dropdown>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Contraseña:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="password" class="w100" pInputText [required]="true" formControlName="password" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Confirmar Contraseña:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="password" class="w100" pInputText [required]="true" formControlName="passwordMatch" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Foto:</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText [required]="true" formControlName="foto" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 text-right">
+                <button type="submit" pButton pRipple icon="fas fa-save" [disabled]="!formJueces.valid" label="Guardar"></button> &nbsp;
+                <button type="button" pButton pRipple icon="fas fa-arrow-left" label="Volver" (click)="displayModalCrear=false">
+        </button>
+            </div>
+        </div>
+    </form>
+    <pre>
+
+        {{formJueces.value |json}}
+    </pre>
+</p-dialog>
