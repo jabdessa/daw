@@ -33,3 +33,24 @@
 .p-steps .p-steps-item:before {
     width: 100%;
 }
+
+.p-component:disabled {
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+.p-disabled * {
+    pointer-events: visible;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+.p-dropdown.p-component.p-disabled {
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+.p-component.p-radiobutton-disabled {
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
