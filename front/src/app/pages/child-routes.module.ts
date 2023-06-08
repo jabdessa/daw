@@ -1,44 +1,45 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { CompeticionesComponent } from './competiciones/competiciones.component';
-import { Grafica1Component } from './grafica1/grafica1.component';
-import { AccountSettingsComponent } from './account-settings/account-settings.component';
-import { PromesasComponent } from './promesas/promesas.component';
-import { RxjsComponent } from './rxjs/rxjs.component';
 import { PerfilComponent } from './perfil/perfil.component';
 
 // Mantenimientos
-import { JuecesComponent } from './mantenimientos/jueces/jueces.component';
-import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.component';
-import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
-import { MedicoComponent } from './mantenimientos/medicos/medico.component';
-import { BusquedaComponent } from './busqueda/busqueda.component';
 import { AdminGuard } from '../guards/admin.guard';
+import { BusquedaComponent } from './busqueda/busqueda.component';
+import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.component';
+import { JuecesComponent } from './mantenimientos/jueces/jueces.component';
+import { MedicoComponent } from './mantenimientos/medicos/medico.component';
+import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 
 
 const childRoutes: Routes = [
   { path: '', component: CompeticionesComponent, data: { titulo: 'Competiciones' } },
-  { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes de cuenta' }},
-  { path: 'buscar/:termino', component: BusquedaComponent, data: { titulo: 'Busquedas' }},
-  { path: 'grafica1', component: Grafica1Component, data: { titulo: 'Gráfica #1' }},
-  { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de juez' }},
-  { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas' }},
-  { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs' }},
-
-  // Mantenimientos
-  { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Matenimiento de Hospitales' }},
-  { path: 'medicos', component: MedicosComponent, data: { titulo: 'Matenimiento de Medicos' }},
-  { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Matenimiento de Medicos' }},
+  // Rutas de SEC : secretario
+  { path: 'asistencias/:idCompeticion', canActivate: [AdminGuard], component: CompeticionesComponent, data: { titulo: 'Asistencias' } },
 
   // Rutas de Admin
-  { path: 'jueces', canActivate: [ AdminGuard ], component: JuecesComponent, data: { titulo: 'Matenimiento de Jueces' }},
+  { path: 'jueces', canActivate: [AdminGuard], component: JuecesComponent, data: { titulo: 'Jueces' } },
+
+
+
+
+
+  // FIXME delete todos sus componentes también borrar.
+  { path: 'buscar/:termino', component: BusquedaComponent, data: { titulo: 'Busquedas' } },
+  { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de juez' } },
+
+  // Mantenimientos
+  { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Matenimiento de Hospitales' } },
+  { path: 'medicos', component: MedicosComponent, data: { titulo: 'Matenimiento de Medicos' } },
+  { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Matenimiento de Medicos' } },
 ]
 
 
 
+
 @NgModule({
-  imports: [ RouterModule.forChild(childRoutes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forChild(childRoutes)],
+  exports: [RouterModule]
 })
 export class ChildRoutesModule { }

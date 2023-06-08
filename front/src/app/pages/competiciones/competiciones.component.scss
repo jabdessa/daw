@@ -1,0 +1,56 @@
+.p-dropdown {
+    width: 100%;
+}
+
+.p-inputtext {
+    width: 100%;
+}
+
+.p-fluid .p-button {
+    width: 100%;
+}
+
+.p-tree .p-tree-filter-container .p-tree-filter {
+    width: 100%;
+}
+
+.p-menubar .p-menubar-root-list {
+    width: 100%;
+}
+
+.p-menubar .p-menubar-root-list>.p-menuitem {
+    width: 100%;
+}
+
+.p-menubar .p-menubar-root-list .p-submenu-list {
+    width: 100%;
+}
+
+.p-menubar .p-menubar-root-list .p-menuitem {
+    width: 100%;
+}
+
+.p-steps .p-steps-item:before {
+    width: 100%;
+}
+
+.p-component:disabled {
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+.p-disabled * {
+    pointer-events: visible;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+.p-dropdown.p-component.p-disabled {
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}
+
+.p-component.p-radiobutton-disabled {
+    cursor: not-allowed !important;
+    opacity: 0.6;
+}

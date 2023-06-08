@@ -1,8 +1,160 @@
-<p>competiciones works!</p>
+<div class="row animated fadeIn fast" *ngIf="cargando">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div>
 
-<p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+<div class="row animated fadeIn fast" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="grid">
+                    <div class="col-10">
+                        <h4 class="card-title">Listado de Jueces registrados</h4>
+                    </div>
+                    <div class="col-2 text-right">
+                        <p-button label="Añadir juez" (click)="abrirModalCrearJuez()"></p-button>
+                    </div>
+                </div>
+                <p-table [value]="jueces" styleClass="p-datatable-striped" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="w100">Foto</th>
+                            <th>Nombre</th>
+                            <th>Primer apellido</th>
+                            <th>Segundo apellido</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th class="text-nowrap w100">Acciones</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-juez>
+                        <tr>
+                            <td class="text-center">
+                                <img [src]="juez.fotoUrl" alt="Foto juez" class="avatar cursor" (click)="abrirModal(juez)">
+                            </td>
+                            <td>{{juez.nombre}}</td>
+                            <td>{{juez.primerApellido}}</td>
+                            <td>{{juez.segundoApellido}}</td>
+                            <td>{{juez.email}}</td>
+                            <td>
+                                <p-dropdown [options]="comboOptions" [(ngModel)]="juez.role" optionLabel="value" optionValue="id" (onChange)="cambiarRole( juez )"></p-dropdown>
+                            </td>
+                            <td class="text-nowrap text-center">
+                                <a data-toggle="tooltip" data-original-title="Borrar" class="cursor" (click)="eliminarJuez(juez)">
+                                    <i class="fa fa-close text-danger"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p-calendar [(ngModel)]="value"></p-calendar>
+<!-- MODAL CREAR JUEZ-->
+<p-dialog header="Añadir Juez" [(visible)]="displayModalCrear" [modal]="true" [style]="{width: '1000px', minWidth: '600px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <form [formGroup]="formJueces" (ngSubmit)="crearJuez()">
+        <div class="grid">
 
+            <div class="col-2">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Nombre:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText formControlName="nombre" />
+                    </div>
+                </div>
+            </div>
 
-<p-button label="Click"></p-button>
+            <div class="col-5">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Primer apellido:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText formControlName="primerApellido" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Segundo apellido:</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText formControlName="segundoApellido" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Role:*</b>
+                    </div>
+                    <div class="col-12">
+                        <p-dropdown [options]="comboOptions" formControlName="role" optionLabel="value" optionValue="id">
+                        </p-dropdown>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Email:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="email" class="w100" pInputText formControlName="email" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Contraseña:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="password" class="w100" pInputText formControlName="password" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Confirmar Contraseña:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="password" class="w100" pInputText formControlName="passwordMatch" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Foto:</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText formControlName="foto" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 text-right">
+                <button type="submit" pButton pRipple icon="fas fa-save" [disabled]="!formJueces.valid" label="Guardar" class="p-button-success"></button> &nbsp;
+                <button type="button" pButton pRipple icon="fas fa-arrow-left" label="Volver" class="p-button-secondary" (click)="displayModalCrear=false">
+        </button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
