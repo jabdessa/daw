@@ -14,8 +14,7 @@ export class SidebarComponent implements OnInit {
 
   public juez: Juez;
 
-  constructor( public sidebarService: SidebarService,
-               private juezService: JuezService) {
+  constructor(public sidebarService: SidebarService, private juezService: JuezService) {
     this.juez = juezService.juez;
   }
 

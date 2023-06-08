@@ -21,7 +21,6 @@
                     </ul>
                 </li> -->
                 <!-- <li class="nav-devider"></li> -->
-                <li class="nav-small-cap">PERSONAL</li>
 
                 <li *ngFor="let item of sidebarService.menu">
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
@@ -36,7 +35,8 @@
 
                     <ul aria-expanded="false" class="collapse">
                         <li *ngFor="let subMenuItem of item.submenu">
-                            <a [routerLink]="subMenuItem.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"> {{ subMenuItem.titulo }} </a>
+                            <a [routerLink]="subMenuItem.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <i [class]="subMenuItem.icono"></i> {{ subMenuItem.titulo }} </a>
                         </li>
                     </ul>
                 </li>

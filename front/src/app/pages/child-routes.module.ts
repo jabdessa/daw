@@ -11,16 +11,17 @@ import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.comp
 import { JuecesComponent } from './mantenimientos/jueces/jueces.component';
 import { MedicoComponent } from './mantenimientos/medicos/medico.component';
 import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 const childRoutes: Routes = [
   { path: '', component: CompeticionesComponent, data: { titulo: 'Competiciones' } },
+  { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes de cuenta' }},
+
   // Rutas de SEC : secretario
   { path: 'asistencias/:idCompeticion', canActivate: [AdminGuard], component: CompeticionesComponent, data: { titulo: 'Asistencias' } },
-
   // Rutas de Admin
   { path: 'jueces', canActivate: [AdminGuard], component: JuecesComponent, data: { titulo: 'Jueces' } },
-
 
 
 

@@ -17,14 +17,12 @@ import { MedicoComponent } from './mantenimientos/medicos/medico.component';
 import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 import { PagesComponent } from './pages.component';
 import { PerfilComponent } from './perfil/perfil.component';
-
-
-
-
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 @NgModule({
   declarations: [
     CompeticionesComponent,
+    AccountSettingsComponent,
     PagesComponent,
     PerfilComponent,
     JuecesComponent,

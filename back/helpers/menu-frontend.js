@@ -1,33 +1,25 @@
 const getMenuFrontEnd = (role = 'JUEZ') => {
-    // TODO revisar todo esto para los menus
-    const menu = [{
-            titulo: 'Dashboard',
-            icono: 'mdi mdi-gauge',
+    if (role === 'ADMIN') {
+        return [{
+            titulo: 'Mantenimiento',
+            icono: 'fas fa-tools',
             submenu: [
-                { titulo: 'Main', url: '/' },
-                { titulo: 'Gráficas', url: 'grafica1' },
-                { titulo: 'rxjs', url: 'rxjs' },
-                { titulo: 'Promesas', url: 'promesas' },
-                { titulo: 'ProgressBar', url: 'progress' },
-            ]
-        },
-
-        {
-            titulo: 'Mantenimientos',
-            icono: 'mdi mdi-folder-lock-open',
-            submenu: [
-                // { titulo: 'Jueces', url: 'jueces' },
+                { titulo: 'Jueces', url: 'jueces' },
                 { titulo: 'Hospitales', url: 'hospitales' },
                 { titulo: 'Médicos', url: 'medicos' },
             ]
-        },
-    ];
-
-    if (role === 'ADMIN') {
-        menu[1].submenu.unshift({ titulo: 'Jueces', url: 'jueces' })
+        }];
     }
-
-    return menu;
+    // JUEZ + SEC (resto de roles)
+    else {
+        return [{
+            titulo: 'Calendario',
+            icono: 'far fa-calendar-alt',
+            submenu: [
+                { titulo: 'Competiciones', icono: 'fas fa-running fa-lg', url: '/' },
+            ]
+        }];
+    }
 }
 
 module.exports = {
