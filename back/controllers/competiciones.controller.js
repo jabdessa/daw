@@ -1,5 +1,6 @@
 const { response } = require('express');
 const Competicion = require('../models/competicion.model');
+const Asistencia = require('../models/asistencia.model');
 
 const getCompeticiones = async(req, res) => {
 
@@ -7,19 +8,65 @@ const getCompeticiones = async(req, res) => {
     // const desde = Number(req.query.desde) || 0;
     // const limit = Number(req.query.limit) || 5;
 
-    const [competiciones, total] = await Promise.all([
-        await Competicion.find()
-        // .skip(desde)
-        // .limit(limit),
+    // await Promise.all([
+    let competiciones = await Competicion.aggregate(
+        [{
+            $lookup: {
+                from: "asistencias",
+                localField: "Competicion",
+                foreignField: "id",
+                as: "asistencia"
+            }
+        }]
+    );
 
-        //segunda llamada
-        // Competicion.countDocuments()
-    ]);
+    // let competiciones = await Competicion.aggregate(
+    //     [{
+    //             $lookup: {
+    //                 from: "asistencias",
+    //                 localField: "Competicion",
+    //                 foreignField: "id",
+    //                 as: "asists"
+    //             }
+    //         },
+    //         {
+    //             $project: {
+    //                 _id: "$asists",
+    //                 "disponibilidad": { $size: "$asists" }
+    //             }
+    //         }
+    //     ]
+    // );
+
+
+    // let competiciones = await Competicion.aggregate.lookup({
+    //     from: "Asistencia",
+    //     localField: "Competicion",
+    //     foreignField: "Competicion",
+    //     as: "Competicion"
+    // }).exec();
+
+
+
+    // const devolver = [];
+    // competiciones.forEach(competicion => {
+    //     const temp = competicion.lean();
+    //     temp.disponibilidad = Asistencia.countDocuments();
+    //     devolver.push(temp);
+    // });
+
+    console.log(competiciones[0].asistencia);
+
+
+    // .skip(desde)
+    // .limit(limit), 
+
+    //segunda llamada
+    // ]);
 
     res.json({
         ok: true,
         competiciones,
-        total
     });
 
 }

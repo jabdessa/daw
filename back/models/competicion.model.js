@@ -23,6 +23,9 @@ const CompeticionSchema = Schema({
     horario: {
         type: String,
     },
+    disponibilidad: {
+        type: Number,
+    },
     // nombre de la tabla/colección
 }, { collection: 'competiciones' });
 
