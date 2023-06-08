@@ -6,9 +6,9 @@ import Swal from 'sweetalert2';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Combo } from 'src/app/interfaces/combo.interface';
-import { Juez } from 'src/app/models/juez.model';
-import { JuezService } from 'src/app/services/juez.service';
+import { Competicion } from 'src/app/models/competicion.model';
 import { ModalImagenService } from 'src/app/services/modal-imagen.service';
+import { CompeticionService } from 'src/app/services/competicion.service';
 
 @Component({
   selector: 'app-competiciones',
@@ -23,7 +23,7 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
     [
       {
         id: 'JUEZ',
-        value: 'Juez'
+        value: 'Competicion'
       },
       {
         id: 'SEC',
@@ -31,20 +31,20 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
       }
     ];
 
-  public totalJueces: number = 0;
-  public jueces: Juez[] = [];
-  public juezsTemp: Juez[] = [];
+  public totalCompeticiones: number = 0;
+  public competiciones: Competicion[] = [];
+  public competicionsTemp: Competicion[] = [];
 
   public imgSubs: Subscription;
   public desde: number = 0;
   public cargando: boolean = true;
-  public formJueces: FormGroup;
+  public formCompeticiones: FormGroup;
 
-  constructor(private juezService: JuezService,
+  constructor(private competicionService: CompeticionService,
     private fb: FormBuilder,
     private modalImagenService: ModalImagenService) {
 
-    this.formJueces = this.fb.group({
+    this.formCompeticiones = this.fb.group({
       nombre: new FormControl('', Validators.required),
       primerApellido: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -54,7 +54,7 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
       role: new FormControl('', Validators.required),
       foto: new FormControl('')
     }, {
-      validators: this.passwordsIguales('password', 'passwordMatch')
+      // validators: this.passwordsIguales('password', 'passwordMatch')
     });
   }
 
@@ -63,113 +63,95 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.cargarJueces();
+    this.cargarCompeticiones();
 
     this.imgSubs = this.modalImagenService.nuevaImagen
       .pipe(delay(100))
-      .subscribe(img => this.cargarJueces());
+      .subscribe(img => this.cargarCompeticiones());
   }
 
-  cargarJueces() {
+  cargarCompeticiones() {
     this.cargando = true;
-    this.juezService.cargarJueces(this.desde)
-      .subscribe(({ total, jueces }) => {
-        this.totalJueces = total;
-        this.jueces = jueces;
-        this.juezsTemp = jueces;
+    this.competicionService.cargarCompeticiones(this.desde)
+      .subscribe(({ total, competiciones }) => {
+        this.totalCompeticiones = total;
+        this.competiciones = competiciones;
+        this.competicionsTemp = competiciones;
         this.cargando = false;
       })
   }
 
-  eliminarJuez(juez: Juez) {
-    if (juez.id === this.juezService.id) {
-      return Swal.fire('Error', 'No puede borrarse a si mismo', 'error');
-    }
+  eliminarCompeticion(competicion: Competicion) {
 
     Swal.fire({
-      title: '¿Borrar juez?',
-      text: `Esta a punto de borrar a ${juez.nombre}`,
+      title: '¿Borrar competicion?',
+      text: `Esta a punto de borrar a ${competicion.nombre}`,
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'Si, borrarlo'
+      confirmButtonText: 'Si, borrarla'
     }).then((result) => {
       if (result.value) {
 
-        this.juezService.eliminarJuez(juez)
+        this.competicionService.eliminarCompeticion(competicion)
           .subscribe(resp => {
-            this.cargarJueces();
+            this.cargarCompeticiones();
             Swal.fire(
-              'Juez borrado',
-              `${juez.nombre} fue eliminado correctamente`,
+              'Competicion borrada',
+              `${competicion.nombre} fue eliminada correctamente`,
               'success'
             );
-
           });
-
       }
     })
-
   }
 
-  cambiarRole(juez: Juez) {
-    this.juezService.guardarJuez(juez)
-      .subscribe(resp => {
-        console.log(resp);
-      })
-  }
+  crearCompeticion() {
 
-  crearJuez() {
-
-    if (this.formJueces.invalid) {
-      return;
-    }
+  //   if (this.formCompeticiones.invalid) {
+  //     return;
+  //   }
 
     // Realizar el posteo
-    this.juezService.crearJuez(this.formJueces.value)
-      .subscribe(resp => {
-        this.displayModalCrear = false;
-        if (resp.ok) {
-          this.cargarJueces();
-        } else {
-          console.error(resp);
-          Swal.fire('Error', resp.msg, 'error');
-        }
-        // Navegar al Competiciones
-      }, (err) => {
-        this.displayModalCrear = false;
-        // Si sucede un error
-        Swal.fire('Error', err.error.msg, 'error');
+  //   this.competicionService.crearCompeticion(this.formCompeticiones.value)
+  //     .subscribe(resp => {
+  //       this.displayModalCrear = false;
+  //       if (resp.ok) {
+  //         this.cargarCompeticiones();
+  //       } else {
+  //         console.error(resp);
+  //         Swal.fire('Error', resp.msg, 'error');
+  //       }
+  //       // Navegar al Competiciones
+  //     }, (err) => {
+  //       this.displayModalCrear = false;
+  //       // Si sucede un error
+  //       Swal.fire('Error', err.error.msg, 'error');
 
-      });
-    console.log(this.formJueces.value);
+  //     });
+  //   console.log(this.formCompeticiones.value);
 
   }
 
 
-  abrirModal(juez: Juez) {
-    this.modalImagenService.abrirModal('jueces', juez.id, juez.foto);
-  }
-
-
-  abrirModalCrearJuez() {
-    this.formJueces.reset();
+  abrirModalCrearCompeticion() {
+    this.formCompeticiones.reset();
     this.displayModalCrear = true;
   }
 
-  passwordsIguales(pass1Name: string, pass2Name: string) {
+  // passwordsIguales(pass1Name: string, pass2Name: string) {
 
-    return (formGroup: FormGroup) => {
+  //   return (formGroup: FormGroup) => {
 
-      const pass1Control = formGroup.get(pass1Name);
-      const pass2Control = formGroup.get(pass2Name);
+  //     const pass1Control = formGroup.get(pass1Name);
+  //     const pass2Control = formGroup.get(pass2Name);
 
-      if (pass1Control.value === pass2Control.value) {
-        pass2Control.setErrors(null)
-      } else {
-        pass2Control.setErrors({ noEsIgual: true })
-      }
+  //     if (pass1Control.value === pass2Control.value) {
+  //       pass2Control.setErrors(null)
+  //     } else {
+  //       pass2Control.setErrors({ noEsIgual: true })
+  //     }
 
 
-    }
-  }
+  //   }
+  // }
 }

@@ -4,16 +4,16 @@ const Competicion = require('../models/competicion.model');
 const getCompeticiones = async(req, res) => {
 
     //paginación + doble llamada
-    const desde = Number(req.query.desde) || 0;
-    const limit = Number(req.query.limit) || 5;
+    // const desde = Number(req.query.desde) || 0;
+    // const limit = Number(req.query.limit) || 5;
 
     const [competiciones, total] = await Promise.all([
         await Competicion.find()
-        .skip(desde)
-        .limit(limit),
+        // .skip(desde)
+        // .limit(limit),
 
         //segunda llamada
-        Competicion.countDocuments()
+        // Competicion.countDocuments()
     ]);
 
     res.json({

@@ -20,15 +20,25 @@
                         <p-button label="Añadir juez" (click)="abrirModalCrearJuez()"></p-button>
                     </div>
                 </div>
-                <p-table [value]="jueces" styleClass="p-datatable-striped" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]">
+                <p-table [value]="jueces" styleClass="p-datatable-striped" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]" sortMode="single">
                     <ng-template pTemplate="header">
                         <tr>
                             <th class="w100">Foto</th>
-                            <th>Nombre</th>
-                            <th>Primer apellido</th>
-                            <th>Segundo apellido</th>
-                            <th>Email</th>
-                            <th>Role</th>
+                            <th pSortableColumn="nombre">Nombre
+                                <p-sortIcon field="nombre"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="primerApellido">Primer apellido
+                                <p-sortIcon field="primerApellido"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="segundoApellido">Segundo apellido
+                                <p-sortIcon field="segundoApellido"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="email">Email
+                                <p-sortIcon field="email"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="role">Role
+                                <p-sortIcon field="role"></p-sortIcon>
+                            </th>
                             <th class="text-nowrap w100">Acciones</th>
                         </tr>
                     </ng-template>
@@ -37,7 +47,7 @@
                             <td class="text-center">
                                 <img [src]="juez.fotoUrl" alt="Foto juez" class="avatar cursor" (click)="abrirModal(juez)">
                             </td>
-                            <td>{{juez.nombre}}</td>
+                            <td>{{juez.nombre}} </td>
                             <td>{{juez.primerApellido}}</td>
                             <td>{{juez.segundoApellido}}</td>
                             <td>{{juez.email}}</td>
