@@ -14,9 +14,12 @@
             <div class="card-body">
                 <div class="grid">
                     <div class="col-10">
-                        <h4 class="card-title">Listado de Competiciones registrados</h4>
+                        <h4 class="card-title">Listado de Competiciones</h4>
+                        <pre>
+                            role: {{juezRole}}
+                        </pre>
                     </div>
-                    <div class="col-2 text-right">
+                    <div *ngIf="juezRole==='SEC'" class="col-2 text-right">
                         <p-button label="Añadir Competicion" (click)="abrirModalCrearCompeticion()"></p-button>
                     </div>
                 </div>
@@ -42,17 +45,20 @@
                             <th pSortableColumn="horario">Horario
                                 <p-sortIcon field="horario"></p-sortIcon>
                             </th>
-                            <th class="text-nowrap w100">Acciones</th>
+                            <th *ngIf="juezRole==='SEC'" class="text-nowrap w100">Acciones</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-competicion>
                         <tr>
                             <!-- // TODO enlace a las disponibilidades de los jueces (total de jueces que quieren asistir a esta competición.). sólo para el rol de SEC, 
                             para el rol de juuez se tiene que ver el campo disponible checkbox. -->
-                            <td class="text-center">
+                            <td *ngIf="juezRole==='SEC'" class="text-center">
                                 <a *ngIf="(competicion.disponibilidad.length>0) else ceroDisponibilidad" [routerLink]="['/asistencias/',competicion._id]">
                   {{competicion.disponibilidad.length}}
                 </a>
+                            </td>
+                            <td *ngIf="juezRole==='JUEZ'" class="text-center">
+                                <p-checkbox name="disponible" value="val1"></p-checkbox>
                             </td>
                             <td>{{competicion.nombre}}</td>
                             <td>{{competicion.lugar}}</td>
@@ -60,7 +66,7 @@
                             <td>{{competicion.jornada}}</td>
                             <td>{{competicion.organizador}}</td>
                             <td>{{competicion.horario}}</td>
-                            <td class="text-nowrap text-center">
+                            <td *ngIf="juezRole==='SEC'" class="text-nowrap text-center">
                                 <a data-toggle="tooltip" data-original-title="Editar" class="cursor" (click)="abrirModalModificarCompeticion(competicion)">
                                     <i class="fas fa-edit"></i>
                                 </a>

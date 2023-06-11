@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { Combo } from 'src/app/interfaces/combo.interface';
 import { Competicion } from 'src/app/models/competicion.model';
 import { CompeticionService } from 'src/app/services/competicion.service';
+import { JuezService } from 'src/app/services/juez.service';
 import { ModalImagenService } from 'src/app/services/modal-imagen.service';
 import Swal from 'sweetalert2';
 
@@ -17,6 +17,7 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
 
   public displayModalCrear: boolean = false;
   public displayModalActualizar: boolean = false;
+  juezRole = this.juezService.role;
 
   locale: {
     primeng: {
@@ -31,18 +32,6 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
     }
   }
 
-  comboOptions: Combo[] =
-    [
-      {
-        id: 'JUEZ',
-        value: 'Competicion'
-      },
-      {
-        id: 'SEC',
-        value: 'Secretario'
-      }
-    ];
-
   public competiciones: Competicion[] = [];
   public imgSubs: Subscription;
   public desde: number = 0;
@@ -50,6 +39,7 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
   public formCompeticiones: FormGroup;
 
   constructor(private competicionService: CompeticionService,
+    private juezService: JuezService,
     private fb: FormBuilder,
     private modalImagenService: ModalImagenService) {
 
