@@ -17,6 +17,7 @@
                         <h4 class="card-title">Listado de Competiciones</h4>
                         <pre>
                             role: {{juezRole}}
+                            id: {{juezId}}
                         </pre>
                     </div>
                     <div *ngIf="juezRole==='SEC'" class="col-2 text-right">
@@ -42,30 +43,30 @@
                             <th pSortableColumn="organizador">Organizador
                                 <p-sortIcon field="organizador"></p-sortIcon>
                             </th>
-                            <th pSortableColumn="horario">Horario
-                                <p-sortIcon field="horario"></p-sortIcon>
-                            </th>
+                            <!-- // TODO  -->
+                            <!-- <th>Horario </th> -->
                             <th *ngIf="juezRole==='SEC'" class="text-nowrap w100">Acciones</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-competicion>
                         <tr>
-                            <!-- // TODO enlace a las disponibilidades de los jueces (total de jueces que quieren asistir a esta competición.). sólo para el rol de SEC, 
-                            para el rol de juuez se tiene que ver el campo disponible checkbox. -->
                             <td *ngIf="juezRole==='SEC'" class="text-center">
                                 <a *ngIf="(competicion.disponibilidad.length>0) else ceroDisponibilidad" [routerLink]="['/asistencias/',competicion._id]">
                   {{competicion.disponibilidad.length}}
                 </a>
                             </td>
                             <td *ngIf="juezRole==='JUEZ'" class="text-center">
-                                <p-checkbox name="disponible" value="val1"></p-checkbox>
+                                <p-checkbox [binary]="true" [ngModel]="checkAsistenciaJuez(competicion)" (onChange)="juezDisponible($event,competicion)"></p-checkbox>
+                                <pre>
+                                    {{competicion.disponibilidad|json}}
+                                </pre>
                             </td>
                             <td>{{competicion.nombre}}</td>
                             <td>{{competicion.lugar}}</td>
                             <td>{{competicion.fecha | date :'dd/MM/yyyy'}}</td>
                             <td>{{competicion.jornada}}</td>
                             <td>{{competicion.organizador}}</td>
-                            <td>{{competicion.horario}}</td>
+                            <!-- <td>{{competicion.horario}}</td> -->
                             <td *ngIf="juezRole==='SEC'" class="text-nowrap text-center">
                                 <a data-toggle="tooltip" data-original-title="Editar" class="cursor" (click)="abrirModalModificarCompeticion(competicion)">
                                     <i class="fas fa-edit"></i>

@@ -18,6 +18,7 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
   public displayModalCrear: boolean = false;
   public displayModalActualizar: boolean = false;
   juezRole = this.juezService.role;
+  juezId = this.juezService.id;
 
   locale: {
     primeng: {
@@ -155,5 +156,21 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
     this.formCompeticiones.patchValue(competicion);
     this.displayModalActualizar = true;
   }
+
+  checkAsistenciaJuez(competicion: Competicion): boolean {
+    const asistencias = competicion?.disponibilidad.map((dispo: any) => dispo?.juez) || []; 1
+    return asistencias.includes(this.juezService.id);
+  }
+
+  // TODO llamar al back para añadir o quitar asistencia para el juez --> después llamar a cargar tabla
+  // this.cargarCompeticiones();
+  juezDisponible(event, competicion: Competicion) {
+
+
+    
+    console.log(event, competicion);
+
+  }
+
 
 }
