@@ -7,9 +7,9 @@ export class Competicion {
         public jornada?: string,
         public organizador?: string,
         public horario?: string,
-        public id?: string,
+        public _id?: string,
         // jueces disponibles.
-        public disponibilidad?: number
+        public disponibilidad?:[]
     ) { }
 
 }

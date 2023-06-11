@@ -1,14 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { delay } from 'rxjs/operators';
-import Swal from 'sweetalert2';
-
-
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { Combo } from 'src/app/interfaces/combo.interface';
 import { Competicion } from 'src/app/models/competicion.model';
-import { ModalImagenService } from 'src/app/services/modal-imagen.service';
 import { CompeticionService } from 'src/app/services/competicion.service';
+import { ModalImagenService } from 'src/app/services/modal-imagen.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-competiciones',
@@ -18,6 +16,19 @@ import { CompeticionService } from 'src/app/services/competicion.service';
 export class CompeticionesComponent implements OnInit, OnDestroy {
 
   public displayModalCrear: boolean = false;
+
+  locale: {
+    primeng: {
+
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'desembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Borrar'
+    }
+  }
 
   comboOptions: Combo[] =
     [
@@ -31,10 +42,7 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
       }
     ];
 
-  public totalCompeticiones: number = 0;
   public competiciones: Competicion[] = [];
-  public competicionsTemp: Competicion[] = [];
-
   public imgSubs: Subscription;
   public desde: number = 0;
   public cargando: boolean = true;
@@ -46,15 +54,11 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
 
     this.formCompeticiones = this.fb.group({
       nombre: new FormControl('', Validators.required),
-      primerApellido: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      segundoApellido: new FormControl(''),
-      password: new FormControl('', Validators.required),
-      passwordMatch: new FormControl('', Validators.required),
-      role: new FormControl('', Validators.required),
-      foto: new FormControl('')
-    }, {
-      // validators: this.passwordsIguales('password', 'passwordMatch')
+      lugar: new FormControl('', Validators.required),
+      fecha: new FormControl(''),
+      jornada: new FormControl(''),
+      organizador: new FormControl(''),
+      horario: new FormControl(''),
     });
   }
 
@@ -73,10 +77,8 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
   cargarCompeticiones() {
     this.cargando = true;
     this.competicionService.cargarCompeticiones(this.desde)
-      .subscribe(({ total, competiciones }) => {
-        this.totalCompeticiones = total;
+      .subscribe(({ competiciones }) => {
         this.competiciones = competiciones;
-        this.competicionsTemp = competiciones;
         this.cargando = false;
       })
   }
@@ -106,30 +108,25 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
   }
 
   crearCompeticion() {
-
-  //   if (this.formCompeticiones.invalid) {
-  //     return;
-  //   }
-
+    if (this.formCompeticiones.invalid) {
+      return;
+    }
     // Realizar el posteo
-  //   this.competicionService.crearCompeticion(this.formCompeticiones.value)
-  //     .subscribe(resp => {
-  //       this.displayModalCrear = false;
-  //       if (resp.ok) {
-  //         this.cargarCompeticiones();
-  //       } else {
-  //         console.error(resp);
-  //         Swal.fire('Error', resp.msg, 'error');
-  //       }
-  //       // Navegar al Competiciones
-  //     }, (err) => {
-  //       this.displayModalCrear = false;
-  //       // Si sucede un error
-  //       Swal.fire('Error', err.error.msg, 'error');
-
-  //     });
-  //   console.log(this.formCompeticiones.value);
-
+    this.competicionService.crearCompeticion(this.formCompeticiones.value)
+      .subscribe(resp => {
+        this.displayModalCrear = false;
+        if (resp.ok) {
+          this.cargarCompeticiones();
+        } else {
+          console.error(resp);
+          Swal.fire('Error', resp.msg, 'error');
+        }
+        // Navegar al Competiciones
+      }, (err) => {
+        this.displayModalCrear = false;
+        // Si sucede un error
+        Swal.fire('Error', err.error.msg, 'error');
+      });
   }
 
 
@@ -138,20 +135,4 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
     this.displayModalCrear = true;
   }
 
-  // passwordsIguales(pass1Name: string, pass2Name: string) {
-
-  //   return (formGroup: FormGroup) => {
-
-  //     const pass1Control = formGroup.get(pass1Name);
-  //     const pass2Control = formGroup.get(pass2Name);
-
-  //     if (pass1Control.value === pass2Control.value) {
-  //       pass2Control.setErrors(null)
-  //     } else {
-  //       pass2Control.setErrors({ noEsIgual: true })
-  //     }
-
-
-  //   }
-  // }
 }

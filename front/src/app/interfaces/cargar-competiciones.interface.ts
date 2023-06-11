@@ -1,6 +1,6 @@
 import { Competicion } from '../models/competicion.model';
 
 export interface CargarCompeticion {
-    total: number;
+    ok: boolean;
     competiciones: Competicion[];
 }

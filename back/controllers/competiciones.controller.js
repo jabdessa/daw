@@ -13,9 +13,9 @@ const getCompeticiones = async(req, res) => {
         [{
             $lookup: {
                 from: "asistencias",
-                localField: "Competicion",
-                foreignField: "id",
-                as: "asistencia"
+                localField: "_id",
+                foreignField: "competicion",
+                as: "disponibilidad"
             }
         }]
     );

@@ -1,15 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { environment } from '../../environments/environment';
-
 import { CargarCompeticion } from '../interfaces/cargar-competiciones.interface';
-
-// import { CompeticionRegister } from '../interfaces/competicion.interface';
-// import { responseCompeticiones } from '../interfaces/response-competiciones.interface';
 import { Competicion } from '../models/competicion.model';
 
 const base_url = environment.base_url;
@@ -35,10 +29,9 @@ export class CompeticionService {
     }
   }
 
-  // TODO 
-  // crearCompeticion(formData: CompeticionRegister): Observable<responseCompeticiones> {
-  //   return this.http.post<responseCompeticiones>(`${base_url}/competiciones`, formData, this.headers);
-  // }
+  crearCompeticion(formData: any): Observable<any> {
+    return this.http.post<any>(`${base_url}/competiciones`, formData, this.headers);
+  }
 
   cargarCompeticiones(desde: number = 0) {
     const url = `${base_url}/competiciones?desde=${desde}`;
@@ -46,10 +39,10 @@ export class CompeticionService {
       .pipe(
         map(resp => {
           const competiciones = resp.competiciones.map(
-            competicion => new Competicion(competicion.nombre, competicion.lugar, competicion.fecha, competicion.jornada, competicion.organizador, competicion.horario, competicion.id)
+            competicion => new Competicion(competicion.nombre, competicion.lugar, competicion.fecha, competicion.jornada, competicion.organizador, competicion.horario, competicion._id, competicion.disponibilidad)
           );
           return {
-            total: resp.total,
+            ok: resp.ok,
             competiciones
           };
         })
@@ -57,12 +50,12 @@ export class CompeticionService {
   }
 
   eliminarCompeticion(competicion: Competicion) {
-    const url = `${base_url}/competiciones/${competicion.id}`;
+    const url = `${base_url}/competiciones/${competicion._id}`;
     return this.http.delete(url, this.headers);
   }
 
   actualizarCompeticion(competicion: Competicion) {
-    return this.http.put(`${base_url}/competiciones/${competicion.id}`, competicion, this.headers);
+    return this.http.put(`${base_url}/competiciones/${competicion._id}`, competicion, this.headers);
   }
 
 }

@@ -49,7 +49,11 @@
                         <tr>
                             <!-- // TODO enlace a las disponibilidades de los jueces (total de jueces que quieren asistir a esta competición.). sólo para el rol de SEC, 
                             para el rol de juuez se tiene que ver el campo disponible checkbox. -->
-                            <td class="text-center">{{competicion.disponibilidad || 0}} <br> {{competicion.id}}</td>
+                            <td class="text-center">
+                                <a *ngIf="(competicion.disponibilidad.length>0) else ceroDisponibilidad" [routerLink]="['/asistencias/',competicion._id]">
+                  {{competicion.disponibilidad.length}}
+                </a>
+                            </td>
                             <td>{{competicion.nombre}}</td>
                             <td>{{competicion.lugar}}</td>
                             <td>{{competicion.fecha | date :'dd/MM/yyyy'}}</td>
@@ -57,7 +61,7 @@
                             <td>{{competicion.organizador}}</td>
                             <td>{{competicion.horario}}</td>
                             <td class="text-nowrap text-center">
-                                <a data-toggle="tooltip" data-original-title="Borrar" class="cursor" (click)="eliminarCompeticion(competicion)">
+                                <a *ngIf="competicion.disponibilidad.length==0" data-toggle="tooltip" data-original-title="Borrar" class="cursor" (click)="eliminarCompeticion(competicion)">
                                     <i class="fa fa-close text-danger"></i>
                                 </a>
                             </td>
@@ -68,6 +72,10 @@
         </div>
     </div>
 </div>
+
+<ng-template #ceroDisponibilidad>
+    <span>0</span>
+</ng-template>
 
 <!-- MODAL CREAR Competicion-->
 <p-dialog header="Añadir Competicion" [(visible)]="displayModalCrear" [modal]="true" [style]="{width: '1000px', minWidth: '600px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
@@ -88,10 +96,10 @@
             <div class="col-5">
                 <div class="grid">
                     <div class="col-12">
-                        <b>Primer apellido:*</b>
+                        <b>Lugar:*</b>
                     </div>
                     <div class="col-12">
-                        <input type="text" class="w100" pInputText formControlName="primerApellido" />
+                        <input type="text" class="w100" pInputText formControlName="lugar" />
                     </div>
                 </div>
             </div>
@@ -99,43 +107,22 @@
             <div class="col-5">
                 <div class="grid">
                     <div class="col-12">
-                        <b>Segundo apellido:</b>
+                        <b>Fecha:</b>
                     </div>
                     <div class="col-12">
-                        <input type="text" class="w100" pInputText formControlName="segundoApellido" />
+                        <p-calendar [firstDayOfWeek]=1 [showIcon]="true" appendTo="body" [locale]="locale" [monthNavigator]="true" [yearNavigator]="true" yearRange="2020:2030" dateFormat="dd/mm/yy" showButtonBar="true" formControlName="fecha">
+                        </p-calendar>
                     </div>
                 </div>
             </div>
 
-            <div class="col-2">
-                <div class="grid">
-                    <div class="col-12">
-                        <b>Role:*</b>
-                    </div>
-                    <div class="col-12">
-                        <p-dropdown [options]="comboOptions" formControlName="role" optionLabel="value" optionValue="id">
-                        </p-dropdown>
-                    </div>
-                </div>
-            </div>
             <div class="col-4">
                 <div class="grid">
                     <div class="col-12">
-                        <b>Email:*</b>
+                        <b>Jornada</b>
                     </div>
                     <div class="col-12">
-                        <input type="email" class="w100" pInputText formControlName="email" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-3">
-                <div class="grid">
-                    <div class="col-12">
-                        <b>Contraseña:*</b>
-                    </div>
-                    <div class="col-12">
-                        <input type="password" class="w100" pInputText formControlName="password" />
+                        <input type="text" class="w100" pInputText formControlName="jornada" />
                     </div>
                 </div>
             </div>
@@ -143,21 +130,21 @@
             <div class="col-3">
                 <div class="grid">
                     <div class="col-12">
-                        <b>Confirmar Contraseña:*</b>
+                        <b>Organizador</b>
                     </div>
                     <div class="col-12">
-                        <input type="password" class="w100" pInputText formControlName="passwordMatch" />
+                        <input type="text" class="w100" pInputText formControlName="organizador" />
                     </div>
                 </div>
             </div>
 
-            <div class="col-2">
+            <div class="col-3">
                 <div class="grid">
                     <div class="col-12">
-                        <b>Foto:</b>
+                        <b>horario:</b>
                     </div>
                     <div class="col-12">
-                        <input type="text" class="w100" pInputText formControlName="foto" />
+                        <input type="file" class="w100" pInputText formControlName="horario" />
                     </div>
                 </div>
             </div>
@@ -169,4 +156,7 @@
             </div>
         </div>
     </form>
+    <pre>
+        {{formCompeticiones.value|json}}
+    </pre>
 </p-dialog>
