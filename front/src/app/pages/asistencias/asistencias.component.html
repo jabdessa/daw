@@ -27,9 +27,12 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-asistencia>
                         <tr>
-                            <td>{{asistencia.juez |json}}</td>
-                            <!-- <td>{{asistencia.competicion|json | date :'dd/MM/yyyy'}}</td> -->
-                            <td>{{asistencia.competicion|json }}</td>
+                            <td>
+                                {{asistencia.juez?.primerApellido}} {{asistencia.juez?.segundoApellido}}, {{asistencia.juez?.nombre}}
+                            </td>
+                            <td>
+                                {{asistencia.competicion.nombre}} - {{asistencia.competicion.lugar }}- {{asistencia.competicion.fecha | date :'dd/MM/yyyy'}}
+                            </td>
                             <td class="text-center">
                                 <p-checkbox [binary]="true" [ngModel]="asistencia.asiste" (onChange)="actualizarAsistencia($event,asistencia)">
                                 </p-checkbox>
