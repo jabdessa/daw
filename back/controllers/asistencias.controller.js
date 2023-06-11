@@ -31,9 +31,8 @@ const getAsistenciasByCompeticion = async(req, res) => {
     const competicionId = req.params.id;
     try {
         const asistencias = await Asistencia.find({ competicion: competicionId })
-            .populate('juez', 'nombre')
-            .populate('competicion', 'nombre');
-
+            .populate('juez', 'nombre primerApellido segundoApellido')
+            .populate('competicion', 'nombre lugar fecha');
         res.json({
             ok: true,
             asistencias

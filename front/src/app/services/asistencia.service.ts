@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { CargarAsistencia } from '../interfaces/cargar-asistencias.interface';
+import { Asistencia } from '../models/asistencia.model';
+import { map } from 'rxjs/operators';
 
 const base_url = environment.base_url;
 
@@ -10,10 +13,8 @@ const base_url = environment.base_url;
 })
 export class AsistenciaService {
 
-  // public Asistencia: Asistencia;
-
   constructor(private http: HttpClient) { }
-
+  
   get token(): string {
     return localStorage.getItem('token') || '';
   }
@@ -31,29 +32,24 @@ export class AsistenciaService {
     return this.http.post<any>(`${base_url}/asistencias`, formData, this.headers);
   }
 
-  // cargarAsistencias(desde: number = 0) {
-  //   const url = `${base_url}/Asistencias?desde=${desde}`;
-  //   return this.http.get<CargarAsistencia>(url, this.headers)
-  //     .pipe(
-  //       map(resp => {
-  //         const Asistencias = resp.Asistencias.map(
-  //           Asistencia => new Asistencia(Asistencia.nombre, Asistencia.lugar, Asistencia.fecha, Asistencia.jornada, Asistencia.organizador, Asistencia.horario, Asistencia._id, Asistencia.disponibilidad)
-  //         );
-  //         return {
-  //           ok: resp.ok,
-  //           Asistencias
-  //         };
-  //       })
-  //     )
-  // }
+  cargarAsistencias(desde: number = 0) {
+    const url = `${base_url}/asistencias?desde=${desde}`;
+    return this.http.get<CargarAsistencia>(url, this.headers)
+      .pipe(
+        map(resp => {
+          const asistencias = resp.asistencias.map(
+            asistencia => new Asistencia(asistencia.competicion, asistencia.juez, asistencia.asiste, asistencia.id)
+          );
+          return {
+            ok: resp.ok,
+            asistencias
+          };
+        })
+      )
+  }
 
-  // eliminarAsistencia(Asistencia: Asistencia) {
-  //   const url = `${base_url}/Asistencias/${Asistencia._id}`;
-  //   return this.http.delete(url, this.headers);
-  // }
-
-  // actualizarAsistencia(Asistencia: Asistencia):Observable<any> {
-  //   return this.http.put<any>(`${base_url}/Asistencias/${Asistencia._id}`, Asistencia, this.headers);
-  // }
+  actualizarAsistencia(asistencia: Asistencia): Observable<any> {
+    return this.http.put<any>(`${base_url}/asistencias/${asistencia.id}`, Asistencia, this.headers);
+  }
 
 }

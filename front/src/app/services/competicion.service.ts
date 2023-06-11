@@ -13,8 +13,6 @@ const base_url = environment.base_url;
 })
 export class CompeticionService {
 
-  public competicion: Competicion;
-
   constructor(private http: HttpClient) { }
 
   get token(): string {
