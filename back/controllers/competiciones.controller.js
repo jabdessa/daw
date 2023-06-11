@@ -7,7 +7,6 @@ const getCompeticiones = async(req, res) => {
     //paginación + doble llamada
     // const desde = Number(req.query.desde) || 0;
     // const limit = Number(req.query.limit) || 5;
-
     // await Promise.all([
     let competiciones = await Competicion.aggregate(
         [{
@@ -19,45 +18,6 @@ const getCompeticiones = async(req, res) => {
             }
         }]
     );
-
-    // let competiciones = await Competicion.aggregate(
-    //     [{
-    //             $lookup: {
-    //                 from: "asistencias",
-    //                 localField: "Competicion",
-    //                 foreignField: "id",
-    //                 as: "asists"
-    //             }
-    //         },
-    //         {
-    //             $project: {
-    //                 _id: "$asists",
-    //                 "disponibilidad": { $size: "$asists" }
-    //             }
-    //         }
-    //     ]
-    // );
-
-
-    // let competiciones = await Competicion.aggregate.lookup({
-    //     from: "Asistencia",
-    //     localField: "Competicion",
-    //     foreignField: "Competicion",
-    //     as: "Competicion"
-    // }).exec();
-
-
-
-    // const devolver = [];
-    // competiciones.forEach(competicion => {
-    //     const temp = competicion.lean();
-    //     temp.disponibilidad = Asistencia.countDocuments();
-    //     devolver.push(temp);
-    // });
-
-    console.log(competiciones[0].asistencia);
-
-
     // .skip(desde)
     // .limit(limit), 
 
@@ -117,18 +77,20 @@ const actualizarCompeticion = async(req, res = response) => {
             });
         }
 
-        const existeCompeticionNombre = await Competicion.findOne({ nombre });
+        const { nombre, ...campos } = req.body;
+        if (existeCompeticion.nombre !== nombre) {
+            const existeCompeticionNombre = await Competicion.findOne({ nombre });
 
-        if (existeCompeticionNombre) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'Competición ya existe nombre.'
-            });
+            if (existeCompeticionNombre) {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'Competición ya existe nombre.'
+                });
+            }
         }
 
-
-
-        const competicionActualizado = await Competicion.findByIdAndUpdate(id, req.body);
+        campos.nombre = nombre;
+        const competicionActualizado = await Competicion.findByIdAndUpdate(id, campos, { new: true });
 
         res.json({
             ok: true,

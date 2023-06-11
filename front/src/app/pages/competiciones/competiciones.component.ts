@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 export class CompeticionesComponent implements OnInit, OnDestroy {
 
   public displayModalCrear: boolean = false;
+  public displayModalActualizar: boolean = false;
 
   locale: {
     primeng: {
@@ -53,6 +54,7 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
     private modalImagenService: ModalImagenService) {
 
     this.formCompeticiones = this.fb.group({
+      _id: new FormControl(''),
       nombre: new FormControl('', Validators.required),
       lugar: new FormControl('', Validators.required),
       fecha: new FormControl(''),
@@ -130,9 +132,38 @@ export class CompeticionesComponent implements OnInit, OnDestroy {
   }
 
 
+  actualizarCompeticion() {
+    if (this.formCompeticiones.invalid) {
+      return;
+    }
+    // Realizar el posteo
+    this.competicionService.actualizarCompeticion(this.formCompeticiones.value)
+      .subscribe(resp => {
+        this.displayModalActualizar = false;
+        if (resp.ok) {
+          this.cargarCompeticiones();
+        } else {
+          console.error(resp);
+          Swal.fire('Error', resp.msg, 'error');
+        }
+        // Navegar al Competiciones
+      }, (err) => {
+        this.displayModalActualizar = false;
+        // Si sucede un error
+        Swal.fire('Error', err.error.msg, 'error');
+      });
+  }
+
   abrirModalCrearCompeticion() {
     this.formCompeticiones.reset();
     this.displayModalCrear = true;
+  }
+
+  abrirModalModificarCompeticion(competicion: Competicion) {
+    competicion.fecha = competicion.fecha ? new Date(competicion.fecha) : null;
+    // this.formCompeticiones.reset(competicion);
+    this.formCompeticiones.patchValue(competicion);
+    this.displayModalActualizar = true;
   }
 
 }

@@ -54,8 +54,8 @@ export class CompeticionService {
     return this.http.delete(url, this.headers);
   }
 
-  actualizarCompeticion(competicion: Competicion) {
-    return this.http.put(`${base_url}/competiciones/${competicion._id}`, competicion, this.headers);
+  actualizarCompeticion(competicion: Competicion):Observable<any> {
+    return this.http.put<any>(`${base_url}/competiciones/${competicion._id}`, competicion, this.headers);
   }
 
 }

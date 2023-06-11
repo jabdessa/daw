@@ -61,6 +61,10 @@
                             <td>{{competicion.organizador}}</td>
                             <td>{{competicion.horario}}</td>
                             <td class="text-nowrap text-center">
+                                <a data-toggle="tooltip" data-original-title="Editar" class="cursor" (click)="abrirModalModificarCompeticion(competicion)">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                &nbsp;&nbsp;
                                 <a *ngIf="competicion.disponibilidad.length==0" data-toggle="tooltip" data-original-title="Borrar" class="cursor" (click)="eliminarCompeticion(competicion)">
                                     <i class="fa fa-close text-danger"></i>
                                 </a>
@@ -138,7 +142,7 @@
                 </div>
             </div>
 
-            <div class="col-3">
+            <!-- <div class="col-3">
                 <div class="grid">
                     <div class="col-12">
                         <b>horario:</b>
@@ -147,7 +151,7 @@
                         <input type="file" class="w100" pInputText formControlName="horario" />
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-12 text-right">
                 <button type="submit" pButton pRipple icon="fas fa-save" [disabled]="!formCompeticiones.valid" label="Guardar" class="p-button-success"></button> &nbsp;
@@ -156,7 +160,86 @@
             </div>
         </div>
     </form>
-    <pre>
-        {{formCompeticiones.value|json}}
-    </pre>
+</p-dialog>
+
+
+<!-- MODAL CREAR Competicion-->
+<p-dialog header="Actualizar Competicion" [(visible)]="displayModalActualizar" [modal]="true" [style]="{width: '1000px', minWidth: '600px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <form [formGroup]="formCompeticiones" (ngSubmit)="actualizarCompeticion()">
+        <div class="grid">
+
+            <div class="col-2">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Nombre:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText formControlName="nombre" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Lugar:*</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText formControlName="lugar" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Fecha:</b>
+                    </div>
+                    <div class="col-12">
+                        <p-calendar [firstDayOfWeek]=1 [showIcon]="true" appendTo="body" [locale]="locale" [monthNavigator]="true" [yearNavigator]="true" yearRange="2020:2030" dateFormat="dd/mm/yy" showButtonBar="true" formControlName="fecha">
+                        </p-calendar>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Jornada</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText formControlName="jornada" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>Organizador</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="w100" pInputText formControlName="organizador" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="col-3">
+                <div class="grid">
+                    <div class="col-12">
+                        <b>horario:</b>
+                    </div>
+                    <div class="col-12">
+                        <input type="file" class="w100" pInputText formControlName="horario" />
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="col-12 text-right">
+                <button type="submit" pButton pRipple icon="fas fa-save" [disabled]="!formCompeticiones.valid" label="Guardar" class="p-button-success"></button> &nbsp;
+                <button type="button" pButton pRipple icon="fas fa-arrow-left" label="Volver" class="p-button-secondary" (click)="displayModalCrear=false">
+        </button>
+            </div>
+        </div>
+    </form>
 </p-dialog>
