@@ -15,10 +15,6 @@
                 <div class="grid">
                     <div class="col-10">
                         <h4 class="card-title">Listado de Competiciones</h4>
-                        <pre>
-                            role: {{juezRole}}
-                            id: {{juezId}}
-                        </pre>
                     </div>
                     <div *ngIf="juezRole==='SEC'" class="col-2 text-right">
                         <p-button label="Añadir Competicion" (click)="abrirModalCrearCompeticion()"></p-button>
@@ -27,7 +23,6 @@
                 <p-table [value]="competiciones" styleClass="p-datatable-striped" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>Disponibilidad</th>
                             <th pSortableColumn="nombre">Nombre
                                 <p-sortIcon field="nombre"></p-sortIcon>
                             </th>
@@ -43,6 +38,8 @@
                             <th pSortableColumn="organizador">Organizador
                                 <p-sortIcon field="organizador"></p-sortIcon>
                             </th>
+                            <th>Disponibilidad</th>
+                            <th *ngIf="juezRole==='JUEZ'">Asiste</th>
                             <!-- // TODO  -->
                             <!-- <th>Horario </th> -->
                             <th *ngIf="juezRole==='SEC'" class="text-nowrap w100">Acciones</th>
@@ -50,23 +47,25 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-competicion>
                         <tr>
-                            <td *ngIf="juezRole==='SEC'" class="text-center">
-                                <a *ngIf="(competicion.disponibilidad.length>0) else ceroDisponibilidad" [routerLink]="['/asistencias/',competicion._id]">
-                  {{competicion.disponibilidad.length}}
-                </a>
-                            </td>
-                            <td *ngIf="juezRole==='JUEZ'" class="text-center">
-                                <p-checkbox [binary]="true" [ngModel]="checkAsistenciaJuez(competicion)" (onChange)="juezDisponible($event,competicion)"></p-checkbox>
-                                <pre>
-                                    {{competicion.disponibilidad|json}}
-                                </pre>
-                            </td>
                             <td>{{competicion.nombre}}</td>
                             <td>{{competicion.lugar}}</td>
                             <td>{{competicion.fecha | date :'dd/MM/yyyy'}}</td>
                             <td>{{competicion.jornada}}</td>
                             <td>{{competicion.organizador}}</td>
                             <!-- <td>{{competicion.horario}}</td> -->
+                            <td *ngIf="juezRole==='SEC'" class="text-center">
+                                <a *ngIf="(competicion.disponibilidad.length>0) else ceroDisponibilidad" [routerLink]="['/asistencias/',competicion._id]">
+                  {{competicion.disponibilidad.length}}
+                </a>
+                            </td>
+                            <td *ngIf="juezRole==='JUEZ'" class="text-center">
+                                <p-checkbox [binary]="true" [ngModel]="checkDisponibilidadJuez(competicion)" (onChange)="juezDisponible($event,competicion)" [disabled]="checkAsistenciaJuez(competicion)">
+                                </p-checkbox>
+                            </td>
+                            <td *ngIf="juezRole==='JUEZ'" class="text-center">
+                                <p-checkbox [binary]="true" [ngModel]="checkAsistenciaJuez(competicion)" [disabled]="true"></p-checkbox>
+                            </td>
+
                             <td *ngIf="juezRole==='SEC'" class="text-nowrap text-center">
                                 <a data-toggle="tooltip" data-original-title="Editar" class="cursor" (click)="abrirModalModificarCompeticion(competicion)">
                                     <i class="fas fa-edit"></i>

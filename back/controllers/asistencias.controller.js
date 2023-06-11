@@ -48,17 +48,23 @@ const getAsistenciasByCompeticion = async(req, res) => {
 
 }
 
-// para juez --> inserta una asistencia o varias.
+// para juez --> inserta una asistencia o la elimina dependiendo del disponible y si existe la asistencia.
 const crearAsistenciaJuez = async(req, res = response) => {
-    const asistencias = req.body;
+    const asistencia = req.body;
+    const { disponible, competicion, juez } = asistencia;
     try {
-        // sólo me llegan las asistencias que el juez quiere nuevas, las que ya ha dicho que sí, no me llegarán aquí.
-        // FIXME hacer un findOne con await y buscar por juez + competición, si ya existe --> no hacer el save
-        // por haora lo controlaré desde el front para no mandarlo, pero estaría bien hacer esa validación también en el backend.
-        asistencias.forEach(asist => {
-            const asistencia = new Asistencia(asist);
-            asistencia.save();
-        });
+        const ass = await Asistencia.find({ competicion, juez });
+
+        if (!disponible && ass[0]) {
+            //delete
+            await Asistencia.findByIdAndDelete(ass[0].id);
+        }
+
+        if (disponible && !ass[0]) {
+            //create
+            const as = new Asistencia(req.body);
+            await as.save();
+        }
 
         res.json({
             ok: true

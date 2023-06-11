@@ -10,11 +10,11 @@ import { ModalImagenService } from 'src/app/services/modal-imagen.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-competiciones',
-  templateUrl: './competiciones.component.html',
-  styleUrls: ['./competiciones.component.scss']
+  selector: 'app-asistencias',
+  templateUrl: './asistencias.component.html',
+  styleUrls: ['./asistencias.component.scss']
 })
-export class CompeticionesComponent implements OnInit, OnDestroy {
+export class AsistenciasComponent implements OnInit, OnDestroy {
 
   public displayModalCrear: boolean = false;
   public displayModalActualizar: boolean = false;

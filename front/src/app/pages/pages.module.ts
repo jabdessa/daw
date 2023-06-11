@@ -18,10 +18,12 @@ import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 import { PagesComponent } from './pages.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { AsistenciasComponent } from './asistencias/asistencias.component';
 
 @NgModule({
   declarations: [
     CompeticionesComponent,
+    AsistenciasComponent,
     AccountSettingsComponent,
     PagesComponent,
     PerfilComponent,
