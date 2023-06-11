@@ -12,11 +12,12 @@ import { JuecesComponent } from './mantenimientos/jueces/jueces.component';
 import { MedicoComponent } from './mantenimientos/medicos/medico.component';
 import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { SecJuezGuard } from '../guards/sec-juez.guard';
 
 
 const childRoutes: Routes = [
-  { path: '', component: CompeticionesComponent, data: { titulo: 'Competiciones' } },
-  { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes de cuenta' }},
+  { path: 'competiciones', canActivate: [SecJuezGuard], component: CompeticionesComponent, data: { titulo: 'Competiciones' } },
+  { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes de cuenta' } },
 
   // Rutas de SEC : secretario
   { path: 'asistencias/:idCompeticion', canActivate: [AdminGuard], component: CompeticionesComponent, data: { titulo: 'Asistencias' } },
@@ -34,6 +35,7 @@ const childRoutes: Routes = [
   { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Matenimiento de Hospitales' } },
   { path: 'medicos', component: MedicosComponent, data: { titulo: 'Matenimiento de Medicos' } },
   { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Matenimiento de Medicos' } },
+  { path: '', redirectTo: '/competiciones', pathMatch: 'full' }
 ]
 
 

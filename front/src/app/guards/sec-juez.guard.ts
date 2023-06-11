@@ -5,7 +5,7 @@ import { JuezService } from '../services/juez.service';
 @Injectable({
   providedIn: 'root'
 })
-export class SecGuard implements CanActivate {
+export class SecJuezGuard implements CanActivate {
 
   constructor(private juezService: JuezService,
     private router: Router) { }
@@ -14,10 +14,10 @@ export class SecGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
 
-    if (this.juezService.role === 'SEC') {
+    if (['SEC','JUEZ'].includes(this.juezService.role)) {
       return true;
     } else {
-      this.router.navigateByUrl('/competiciones');
+      this.router.navigateByUrl('/jueces');
       return false;
     }
 
