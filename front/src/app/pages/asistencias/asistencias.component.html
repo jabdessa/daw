@@ -16,64 +16,23 @@
                     <div class="col-10">
                         <h4 class="card-title">Listado jueces disponibles para la competición: </h4>
                     </div>
-                    <div *ngIf="juezRole==='SEC'" class="col-2 text-right">
-                        <p-button label="Añadir Competicion" (click)="abrirModalCrearCompeticion()"></p-button>
-                    </div>
                 </div>
-                <p-table [value]="competiciones" styleClass="p-datatable-striped" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]">
+                <p-table [value]="asistencias" styleClass="p-datatable-striped" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="nombre">Nombre
-                                <p-sortIcon field="nombre"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="lugar">Lugar
-                                <p-sortIcon field="lugar"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="fecha">Fecha
-                                <p-sortIcon field="fecha"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="jornada">Jornada
-                                <p-sortIcon field="jornada"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="organizador">Organizador
-                                <p-sortIcon field="organizador"></p-sortIcon>
-                            </th>
-                            <th>Disponibilidad</th>
-                            <th *ngIf="juezRole==='JUEZ'">Asiste</th>
-                            <!-- // TODO  -->
-                            <!-- <th>Horario </th> -->
-                            <th *ngIf="juezRole==='SEC'" class="text-nowrap w100">Acciones</th>
+                            <th pSortableColumn="nombre">Juez</th>
+                            <th pSortableColumn="lugar">Competicion</th>
+                            <th>Asiste</th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-competicion>
+                    <ng-template pTemplate="body" let-asistencia>
                         <tr>
-                            <td>{{competicion.nombre}}</td>
-                            <td>{{competicion.lugar}}</td>
-                            <td>{{competicion.fecha | date :'dd/MM/yyyy'}}</td>
-                            <td>{{competicion.jornada}}</td>
-                            <td>{{competicion.organizador}}</td>
-                            <!-- <td>{{competicion.horario}}</td> -->
-                            <td *ngIf="juezRole==='SEC'" class="text-center">
-                                <a *ngIf="(competicion.disponibilidad.length>0) else ceroDisponibilidad" [routerLink]="['/asistencias/',competicion._id]">
-                  {{competicion.disponibilidad.length}}
-                </a>
-                            </td>
-                            <td *ngIf="juezRole==='JUEZ'" class="text-center">
-                                <p-checkbox [binary]="true" [ngModel]="checkDisponibilidadJuez(competicion)" (onChange)="juezDisponible($event,competicion)" [disabled]="checkAsistenciaJuez(competicion)">
+                            <td>{{asistencia.juez |json}}</td>
+                            <!-- <td>{{asistencia.competicion|json | date :'dd/MM/yyyy'}}</td> -->
+                            <td>{{asistencia.competicion|json }}</td>
+                            <td class="text-center">
+                                <p-checkbox [binary]="true" [ngModel]="asistencia.asiste" (onChange)="actualizarAsistencia($event,asistencia)">
                                 </p-checkbox>
-                            </td>
-                            <td *ngIf="juezRole==='JUEZ'" class="text-center">
-                                <p-checkbox [binary]="true" [ngModel]="checkAsistenciaJuez(competicion)" [disabled]="true"></p-checkbox>
-                            </td>
-
-                            <td *ngIf="juezRole==='SEC'" class="text-nowrap text-center">
-                                <a data-toggle="tooltip" data-original-title="Editar" class="cursor" (click)="abrirModalModificarCompeticion(competicion)">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                &nbsp;&nbsp;
-                                <a *ngIf="competicion.disponibilidad.length==0" data-toggle="tooltip" data-original-title="Borrar" class="cursor" (click)="eliminarCompeticion(competicion)">
-                                    <i class="fa fa-close text-danger"></i>
-                                </a>
                             </td>
                         </tr>
                     </ng-template>
@@ -82,7 +41,3 @@
         </div>
     </div>
 </div>
-
-<ng-template #ceroDisponibilidad>
-    <span>0</span>
-</ng-template>

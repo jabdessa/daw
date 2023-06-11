@@ -32,8 +32,8 @@ export class AsistenciaService {
     return this.http.post<any>(`${base_url}/asistencias`, formData, this.headers);
   }
 
-  cargarAsistencias(desde: number = 0) {
-    const url = `${base_url}/asistencias?desde=${desde}`;
+  cargarAsistencias( idCompeticion:any) {
+    const url = `${base_url}/asistencias/competicion/${idCompeticion}`;
     return this.http.get<CargarAsistencia>(url, this.headers)
       .pipe(
         map(resp => {
@@ -48,8 +48,8 @@ export class AsistenciaService {
       )
   }
 
-  actualizarAsistencia(asistencia: Asistencia): Observable<any> {
-    return this.http.put<any>(`${base_url}/asistencias/${asistencia.id}`, Asistencia, this.headers);
+  actualizarAsistencia(asistencia: any): Observable<any> {
+    return this.http.put<any>(`${base_url}/asistencias/${asistencia.id}`, asistencia, this.headers);
   }
 
 }

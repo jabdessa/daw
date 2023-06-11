@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Asistencia } from 'src/app/models/asistencia.model';
@@ -19,9 +20,9 @@ export class AsistenciasComponent implements OnInit, OnDestroy {
   public desde: number = 0;
   public cargando: boolean = true;
   public formAsistencias: FormGroup;
+  private idCompeticion: any;
 
-  constructor(private asistenciaService: AsistenciaService,
-    private modalImagenService: ModalImagenService) {
+  constructor(private asistenciaService: AsistenciaService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {
@@ -29,16 +30,17 @@ export class AsistenciasComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.cargarAsistencias();
+    this.activatedRoute.params
+      .subscribe(({ idCompeticion }) => {
 
-    this.imgSubs = this.modalImagenService.nuevaImagen
-      .pipe(delay(100))
-      .subscribe(img => this.cargarAsistencias());
+        this.idCompeticion = idCompeticion;
+        this.cargarAsistencias(idCompeticion);
+      });
   }
 
-  cargarAsistencias() {
+  cargarAsistencias(idCompeticion: any) {
     this.cargando = true;
-    this.asistenciaService.cargarAsistencias(this.desde)
+    this.asistenciaService.cargarAsistencias(idCompeticion)
       .subscribe(({ asistencias }) => {
         this.asistencias = asistencias;
         this.cargando = false;
@@ -46,23 +48,27 @@ export class AsistenciasComponent implements OnInit, OnDestroy {
   }
 
 
-  actualizarAsistencia() {
-    if (this.formAsistencias.invalid) {
-      return;
+
+  actualizarAsistencia(event, asistencia: Asistencia) {
+    const data = {
+      asiste: event.checked,
+      idAsitencia: asistencia.id,
     }
-    // Realizar el posteo
-    this.asistenciaService.actualizarAsistencia(this.formAsistencias.value)
+
+    this.asistenciaService.actualizarAsistencia(data)
       .subscribe(resp => {
         if (resp.ok) {
-          this.cargarAsistencias();
+          this.cargarAsistencias(this.idCompeticion);
         } else {
           console.error(resp);
           Swal.fire('Error', resp.msg, 'error');
         }
-        // Navegar al Asistencias
+        // Navegar al Competiciones
       }, (err) => {
         // Si sucede un error
         Swal.fire('Error', err.error.msg, 'error');
       });
   }
+
+
 }
