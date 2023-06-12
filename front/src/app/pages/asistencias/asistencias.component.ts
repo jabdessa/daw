@@ -26,7 +26,7 @@ export class AsistenciasComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.imgSubs.unsubscribe();
+    // this.imgSubs.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -46,8 +46,6 @@ export class AsistenciasComponent implements OnInit, OnDestroy {
         this.cargando = false;
       })
   }
-
-
 
   actualizarAsistencia(event, asistencia: Asistencia) {
     const data = {
