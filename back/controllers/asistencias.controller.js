@@ -79,18 +79,19 @@ const crearAsistenciaJuez = async(req, res = response) => {
 
 // para secretario
 const actualizarAsistenciaSecretario = async(req, res = response) => {
-    const asistencias = req.body;
-    // as.save()
+    const asistencia = req.body;
     try {
-        asistencias.forEach(asistencia => {
-            const existeAsistencia = Asistencia.findById(asistencia.id);
-            if (existeAsistencia) {
-                Asistencia.findByIdAndUpdate(asistencia.id, { asiste: asistencia.asiste }).exec();
-            }
-        });
+        const asistenciaActualizada = await Asistencia.findByIdAndUpdate(asistencia.id, { asiste: asistencia.asiste }, { new: true });
+        // asistencias.forEach(asistencia => {
+        //     const existeAsistencia = Asistencia.findByIdAndUpdate(asistencia.id);
+        //     if (existeAsistencia) {
+        //         Asistencia.findByIdAndUpdate(asistencia.id, { asiste: asistencia.asiste }).exec();
+        //     }
+        // });
 
         res.json({
-            ok: true
+            ok: true,
+            asistencia: asistenciaActualizada
         });
     } catch (error) {
         console.log(error);

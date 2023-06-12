@@ -49,7 +49,7 @@ export class AsistenciaService {
   }
 
   actualizarAsistencia(asistencia: any): Observable<any> {
-    return this.http.put<any>(`${base_url}/asistencias/${asistencia.id}`, asistencia, this.headers);
+    return this.http.put<any>(`${base_url}/asistencias`, asistencia, this.headers);
   }
 
 }

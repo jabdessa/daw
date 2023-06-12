@@ -52,7 +52,7 @@ export class AsistenciasComponent implements OnInit, OnDestroy {
   actualizarAsistencia(event, asistencia: Asistencia) {
     const data = {
       asiste: event.checked,
-      idAsitencia: asistencia.id,
+      id: asistencia.id,
     }
 
     this.asistenciaService.actualizarAsistencia(data)
