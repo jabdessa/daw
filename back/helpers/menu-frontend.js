@@ -4,9 +4,7 @@ const getMenuFrontEnd = (role = 'JUEZ') => {
             titulo: 'Mantenimiento',
             icono: 'fas fa-tools',
             submenu: [
-                { titulo: 'Jueces', url: 'jueces' },
-                { titulo: 'Hospitales', url: 'hospitales' },
-                { titulo: 'Médicos', url: 'medicos' },
+                { titulo: 'Jueces', url: 'jueces' }
             ]
         }];
     }

@@ -10,6 +10,7 @@ import { SecGuard } from '../guards/sec.guard';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { JuecesComponent } from './mantenimientos/jueces/jueces.component';
 import { AsistenciasComponent } from './asistencias/asistencias.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 const childRoutes: Routes = [
@@ -24,7 +25,7 @@ const childRoutes: Routes = [
 
   // FIXME delete todos sus componentes también borrar.
   // { path: 'buscar/:termino', component: BusquedaComponent, data: { titulo: 'Busquedas' } },
-  // { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de juez' } },
+  { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de juez' } },
 
   // Mantenimientos
   // { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Matenimiento de Hospitales' } },
